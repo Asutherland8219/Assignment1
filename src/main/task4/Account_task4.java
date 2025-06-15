@@ -4,13 +4,13 @@
  * Implements one customized customer account for many of our own threads.
  *
  * @author Malek Barhoush, mbarhoush@hotmail.com;
- * 
+ *
  *
  * $Revision: 1.0 $
  * $Last Revision Date: 2018/12/31
  */
 
-public class Account {
+public class Account_task4 {
 
 	/*
 	 * ------------
@@ -21,7 +21,7 @@ public class Account {
 	/**
 	 * Attribute presents an account number
 	 */
-	
+
 	private int acc;
 	/**
 	 * Attribute that presents an customer name
@@ -31,7 +31,7 @@ public class Account {
 	 * Attribute that presents an account balance
 	 */
 	private double balance;
-	
+
 	/*
 	 * ------------
 	 * Constructors
@@ -46,17 +46,17 @@ public class Account {
 	 * @param balance A double indicating account balance
 	 */
 
-	public Account(int acc, String name, double balance) {
+	public Account_task4(int acc, String name, double balance) {
 		super();
 		this.acc = acc;
 		this.name = name;
 		this.balance = balance;
 	}
-	
-	
+
+
 	@Override
 	/**
-	 * equals method works as == operator 
+	 * equals method works as == operator
 	 * it checks if two accounts are identical
 	 */
 	public boolean equals(Object obj) {
@@ -66,7 +66,7 @@ public class Account {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Account_task3 other = (Account_task3) obj;
+		Account_task4 other = (Account_task4) obj;
 		if (acc != other.acc)
 			return false;
 		if (Double.doubleToLongBits(balance) != Double
@@ -96,7 +96,7 @@ public class Account {
 	public int getAcc() {
 		return acc;
 	}
-	
+
 	/**
 	 * Accessor for a customer's name
 	 * @return a customer's name
@@ -120,7 +120,7 @@ public class Account {
 	public double getBalance() {
 		return balance;
 	}
-	
+
 	/**
 	 * Mutator for account balance
 	 * @param balance A double that represents an account balance
@@ -128,9 +128,9 @@ public class Account {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	
+
 	/**
-	 * A method to print this account 
+	 * A method to print this account
 	 */
 	public String toString(){
 		return "Account: "+acc+" \tName: "+name+" \tBalance:\t"+balance;
@@ -143,8 +143,8 @@ public class Account {
 
 
 	// Method Synchronized method
-	public void deposit(double amount){
-		
+	public void deposit4(double amount){
+
 		// Waste some time doing fake computations
 		// do not remove or modify any of the following 3 statements
 		double k = 999999999;
@@ -167,7 +167,7 @@ public class Account {
 	 */
 
 	// Method synchronized
-	public void withdraw(double amount){
+	public void withdraw4(double amount){
 
 		// Waste some time doing fake computations
 		// do not remove or modify any of the following 3 statements
@@ -183,6 +183,6 @@ public class Account {
 		for(int i=0;i<100;i++)
 			k = k / 2;
 	}
-	
+
 
 }

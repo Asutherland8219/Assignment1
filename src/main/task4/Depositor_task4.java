@@ -12,7 +12,7 @@
 
 public class Depositor_task4 extends Thread {
 	private Account_task4 accountTask4;
-	public Depositor_task4(Account_task4 accountTask3){
+	public Depositor_task4(Account_task4 accountTask4){
 		this.accountTask4 = accountTask4;
 	}
 	

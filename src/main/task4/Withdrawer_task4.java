@@ -20,7 +20,7 @@ public class Withdrawer_task4 extends Thread {
 		// Withdraw 10 CAD into instance variable account
 		for (int i=0;i<10000000;i++)
 		{
-			accountTask4.withdraw(10);
+			accountTask4.withdraw4(10);
 			/*
 			try {
 				sleep(10);

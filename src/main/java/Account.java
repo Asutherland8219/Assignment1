@@ -66,7 +66,7 @@ public class Account {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Account_task3 other = (Account_task3) obj;
+		Account other = (Account) obj;
 		if (acc != other.acc)
 			return false;
 		if (Double.doubleToLongBits(balance) != Double
