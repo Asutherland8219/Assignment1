@@ -12,10 +12,10 @@
 public class AccountManager_task3 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Task 3: Method Level Synchronization");
 		Account_task3[] accountTask3 = new Account_task3[10];
-		Depositor_task3[] deposit = new Depositor_task3[10];
-		Withdrawer_task3[] withdraw = new Withdrawer_task3[10];
+		Depositor_task3[] deposit3 = new Depositor_task3[10];
+		Withdrawer_task3[] withdraw3= new Withdrawer_task3[10];
 		
 		// The birth of  10 accounts
 		accountTask3[0] = new Account_task3(1234,"Mike",1000);
@@ -30,28 +30,28 @@ public class AccountManager_task3 {
 		accountTask3[9] = new Account_task3(4321,"Ted",10000);
 		
 		// The birth of 10 depositors 
-		deposit[0] = new Depositor_task3(accountTask3[0]);
-		deposit[1] = new Depositor_task3(accountTask3[1]);
-		deposit[2] = new Depositor_task3(accountTask3[2]);
-		deposit[3] = new Depositor_task3(accountTask3[3]);
-		deposit[4] = new Depositor_task3(accountTask3[4]);
-		deposit[5] = new Depositor_task3(accountTask3[5]);
-		deposit[6] = new Depositor_task3(accountTask3[6]);
-		deposit[7] = new Depositor_task3(accountTask3[7]);
-		deposit[8] = new Depositor_task3(accountTask3[8]);
-		deposit[9] = new Depositor_task3(accountTask3[9]);
+		deposit3[0] = new Depositor_task3(accountTask3[0]);
+		deposit3[1] = new Depositor_task3(accountTask3[1]);
+		deposit3[2] = new Depositor_task3(accountTask3[2]);
+		deposit3[3] = new Depositor_task3(accountTask3[3]);
+		deposit3[4] = new Depositor_task3(accountTask3[4]);
+		deposit3[5] = new Depositor_task3(accountTask3[5]);
+		deposit3[6] = new Depositor_task3(accountTask3[6]);
+		deposit3[7] = new Depositor_task3(accountTask3[7]);
+		deposit3[8] = new Depositor_task3(accountTask3[8]);
+		deposit3[9] = new Depositor_task3(accountTask3[9]);
 
 		// The birth of  10 withdraws 
-		withdraw[0] = new Withdrawer_task3(accountTask3[0]);
-		withdraw[1] = new Withdrawer_task3(accountTask3[1]);
-		withdraw[2] = new Withdrawer_task3(accountTask3[2]);
-		withdraw[3] = new Withdrawer_task3(accountTask3[3]);
-		withdraw[4] = new Withdrawer_task3(accountTask3[4]);
-		withdraw[5] = new Withdrawer_task3(accountTask3[5]);
-		withdraw[6] = new Withdrawer_task3(accountTask3[6]);
-		withdraw[7] = new Withdrawer_task3(accountTask3[7]);
-		withdraw[8] = new Withdrawer_task3(accountTask3[8]);
-		withdraw[9] = new Withdrawer_task3(accountTask3[9]);
+		withdraw3[0] = new Withdrawer_task3(accountTask3[0]);
+		withdraw3[1] = new Withdrawer_task3(accountTask3[1]);
+		withdraw3[2] = new Withdrawer_task3(accountTask3[2]);
+		withdraw3[3] = new Withdrawer_task3(accountTask3[3]);
+		withdraw3[4] = new Withdrawer_task3(accountTask3[4]);
+		withdraw3[5] = new Withdrawer_task3(accountTask3[5]);
+		withdraw3[6] = new Withdrawer_task3(accountTask3[6]);
+		withdraw3[7] = new Withdrawer_task3(accountTask3[7]);
+		withdraw3[8] = new Withdrawer_task3(accountTask3[8]);
+		withdraw3[9] = new Withdrawer_task3(accountTask3[9]);
 
 		System.out.println("Print initial account balances");
 		// Print initial account balances
@@ -66,15 +66,15 @@ public class AccountManager_task3 {
 		 * Interleave all threads
 		 */
 		for(int i=0; i<10; i++){
-			deposit[i].start();
-			withdraw[i].start();
+			deposit3[i].start();
+			withdraw3[i].start();
 		}
 
 		
 		for(int i=0; i<10; i++){
 			try {
-				deposit[i].join();
-				withdraw[i].join();
+				deposit3[i].join();
+				withdraw3[i].join();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

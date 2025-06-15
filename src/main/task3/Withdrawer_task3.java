@@ -15,7 +15,7 @@ public class Withdrawer_task3 extends Thread {
 		this.accountTask3 = accountTask3;
 	}
 	
-	public void run(){
+	public synchronized void run(){
 	
 		// Withdraw 10 CAD into instance variable account
 		for (int i=0;i<10000000;i++)
