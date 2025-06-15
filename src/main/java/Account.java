@@ -81,20 +81,20 @@ public class Account {
 		return true;
 	}
 
+
+	/**
+	 * Mutator for account no
+	 * @param acc A unique int for acoount number
+	 */
+	public void setAcc(int acc) {
+		this.acc = acc;
+	}
 	/**
 	 * Accessor for account no
 	 * @return account no
 	 */
 	public int getAcc() {
 		return acc;
-	}
-	
-	/**
-	 * Mutator for account no 
-	 * @param acc A unique int for acoount number
-	 */
-	public void setAcc(int acc) {
-		this.acc = acc;
 	}
 	
 	/**
@@ -140,7 +140,7 @@ public class Account {
 	 * A method that allows a customer to deposit money into this account
 	 * @param amount A double that represents a deposit amount
 	 */
-	public void deposit(double amount){
+	public synchronized void deposit(double amount){
 		
 		// Waste some time doing fake computations
 		// do not remove or modify any of the following 3 statements
@@ -162,7 +162,7 @@ public class Account {
 	 * A method that allows a customer to withdraw money from this account
 	 * @param amount A double that represents a withdrawal amount
 	 */
-	public void withdraw(double amount){
+	public synchronized void withdraw(double amount){
 
 		// Waste some time doing fake computations
 		// do not remove or modify any of the following 3 statements
