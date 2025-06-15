@@ -9,7 +9,7 @@
  * $Last Revision Date: 2018/12/31
  */
 
-public class AccountManager {
+public class AccountManager_task3 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		

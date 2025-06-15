@@ -10,16 +10,18 @@
  * $Last Revision Date: 2018/12/31
  */
 
-public class Depositor extends Thread {
-	private Account account;
-	public Depositor(Account account){
-		this.account = account;
+public class Depositor_task4 extends Thread {
+	private Account_task4 accountTask4;
+	public Depositor_task4(Account_task4 accountTask3){
+		this.accountTask4 = accountTask4;
 	}
 	
 	public void run(){
 		for (int i=0;i<10000000;i++)
 		{
-			account.deposit(10);
+			synchronized (accountTask4) {
+				accountTask4.deposit4(10);
+			}
 		/*			
  		try {
 				sleep(10);

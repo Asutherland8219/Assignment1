@@ -10,7 +10,7 @@
  */
 
 public class Withdrawer extends Thread {
-	private Account account ;
+	private Account account;
 	public Withdrawer(Account account){
 		this.account = account;
 	}

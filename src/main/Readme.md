@@ -12,6 +12,12 @@ keyword.
 #### Task 2: Starting Order
 
 #### Task 3: Method level synchronization
+Synchronization on the method level:
+
+``````
+	public synchronized void deposit(double amount){
+	}
+``````
 
 #### Task 4: Block level synchronization
 

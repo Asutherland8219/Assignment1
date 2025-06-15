@@ -10,7 +10,7 @@
  * $Last Revision Date: 2018/12/31
  */
 
-public class Account {
+public class Account_task3 {
 
 	/*
 	 * ------------
@@ -46,7 +46,7 @@ public class Account {
 	 * @param balance A double indicating account balance
 	 */
 
-	public Account(int acc, String name, double balance) {
+	public Account_task3(int acc, String name, double balance) {
 		super();
 		this.acc = acc;
 		this.name = name;
@@ -140,6 +140,9 @@ public class Account {
 	 * A method that allows a customer to deposit money into this account
 	 * @param amount A double that represents a deposit amount
 	 */
+
+
+	// Method Synchronized method
 	public synchronized void deposit(double amount){
 		
 		// Waste some time doing fake computations
@@ -162,6 +165,8 @@ public class Account {
 	 * A method that allows a customer to withdraw money from this account
 	 * @param amount A double that represents a withdrawal amount
 	 */
+
+	// Method synchronized
 	public synchronized void withdraw(double amount){
 
 		// Waste some time doing fake computations
