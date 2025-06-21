@@ -34,6 +34,7 @@ public class AccountManager_task4 {
 		deposit4[1] = new Depositor_task4(accountTask4[1]);
 		deposit4[2] = new Depositor_task4(accountTask4[2]);
 		deposit4[3] = new Depositor_task4(accountTask4[3]);
+		deposit4[4] = new Depositor_task4(accountTask4[4]);
 		deposit4[5] = new Depositor_task4(accountTask4[5]);
 		deposit4[6] = new Depositor_task4(accountTask4[6]);
 		deposit4[7] = new Depositor_task4(accountTask4[7]);

@@ -142,45 +142,41 @@ public class Account_task4 {
 	 */
 
 
-	// Method Synchronized method
-	public void deposit4(double amount){
+	public void deposit4(double amount) {
 
 		// Waste some time doing fake computations
-		// do not remove or modify any of the following 3 statements
 		double k = 999999999;
-		for(int i=0;i<100;i++)
+		for (int i = 0; i < 100; i++)
 			k = k / 2;
 
+		synchronized (this) {
 			balance = balance + amount;
+		}
 
 		// Waste some time doing fake computations
-		// do not remove or modify any of the following 3 statements
 		k = 999999999;
-		for(int i=0;i<100;i++)
+		for (int i = 0; i < 100; i++)
 			k = k / 2;
-
 	}
 
 	/**
 	 * A method that allows a customer to withdraw money from this account
 	 * @param amount A double that represents a withdrawal amount
 	 */
-
-	// Method synchronized
-	public void withdraw4(double amount){
+	public void withdraw4(double amount) {
 
 		// Waste some time doing fake computations
-		// do not remove or modify any of the following 3 statements
 		double k = 999999999;
-		for(int i=0;i<100;i++)
+		for (int i = 0; i < 100; i++)
 			k = k / 2;
 
+		synchronized (this) {
 			balance = balance - amount;
+		}
 
 		// Waste some time doing fake computations
-		// do not remove or modify any of the following 3 statements
 		k = 999999999;
-		for(int i=0;i<100;i++)
+		for (int i = 0; i < 100; i++)
 			k = k / 2;
 	}
 

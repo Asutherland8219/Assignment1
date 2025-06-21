@@ -11,7 +11,7 @@
  */
 
 public class Depositor_task4 extends Thread {
-	private Account_task4 accountTask4;
+	private final Account_task4 accountTask4;
 	public Depositor_task4(Account_task4 accountTask4){
 		this.accountTask4 = accountTask4;
 	}
@@ -19,9 +19,7 @@ public class Depositor_task4 extends Thread {
 	public void run(){
 		for (int i=0;i<10000000;i++)
 		{
-			synchronized (accountTask4) {
 				accountTask4.deposit4(10);
-			}
 		/*			
  		try {
 				sleep(10);
