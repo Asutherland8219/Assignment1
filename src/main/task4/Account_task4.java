@@ -41,8 +41,8 @@ public class Account_task4 {
 	/**
 	 * Assigns account number, name and balance.
 	 *
-	 * @param acc A unique integer that represents account number
-	 * @param name A string indicating human-readable customer's name
+	 * @param acc     A unique integer that represents account number
+	 * @param name    A string indicating human-readable customer's name
 	 * @param balance A double indicating account balance
 	 */
 
@@ -77,20 +77,23 @@ public class Account_task4 {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (acc!=other.acc)return false;
+		if (acc != other.acc) return false;
 		return true;
 	}
 
 
 	/**
 	 * Mutator for account no
+	 *
 	 * @param acc A unique int for acoount number
 	 */
 	public void setAcc(int acc) {
 		this.acc = acc;
 	}
+
 	/**
 	 * Accessor for account no
+	 *
 	 * @return account no
 	 */
 	public int getAcc() {
@@ -99,6 +102,7 @@ public class Account_task4 {
 
 	/**
 	 * Accessor for a customer's name
+	 *
 	 * @return a customer's name
 	 */
 	public String getName() {
@@ -107,6 +111,7 @@ public class Account_task4 {
 
 	/**
 	 * Mutator for a customer name
+	 *
 	 * @param name A string that represents a customer name
 	 */
 	public void setName(String name) {
@@ -115,6 +120,7 @@ public class Account_task4 {
 
 	/**
 	 * Accessor for account balance
+	 *
 	 * @return an account balance
 	 */
 	public double getBalance() {
@@ -123,6 +129,7 @@ public class Account_task4 {
 
 	/**
 	 * Mutator for account balance
+	 *
 	 * @param balance A double that represents an account balance
 	 */
 	public void setBalance(double balance) {
@@ -132,53 +139,51 @@ public class Account_task4 {
 	/**
 	 * A method to print this account
 	 */
-	public String toString(){
-		return "Account: "+acc+" \tName: "+name+" \tBalance:\t"+balance;
+	public String toString() {
+		return "Account: " + acc + " \tName: " + name + " \tBalance:\t" + balance;
 	}
 
 	/**
 	 * A method that allows a customer to deposit money into this account
+	 *
 	 * @param amount A double that represents a deposit amount
 	 */
 
 
 	public void deposit4(double amount) {
-
-		// Waste some time doing fake computations
-		double k = 999999999;
-		for (int i = 0; i < 100; i++)
-			k = k / 2;
-
 		synchronized (this) {
+			// Waste some time doing fake computations
+			double k = 999999999;
+			for (int i = 0; i < 100; i++)
+				k = k / 2;
 			balance = balance + amount;
-		}
 
-		// Waste some time doing fake computations
-		k = 999999999;
-		for (int i = 0; i < 100; i++)
-			k = k / 2;
+			// Waste some time doing fake computations
+			// do not remove or modify any of the following 3 statements
+			k = 999999999;
+			for (int i = 0; i < 100; i++)
+				k = k / 2;
+		}
 	}
 
 	/**
 	 * A method that allows a customer to withdraw money from this account
+	 *
 	 * @param amount A double that represents a withdrawal amount
 	 */
 	public void withdraw4(double amount) {
-
-		// Waste some time doing fake computations
-		double k = 999999999;
-		for (int i = 0; i < 100; i++)
-			k = k / 2;
-
 		synchronized (this) {
+			// Waste some time doing fake computations
+			double k = 999999999;
+			for (int i = 0; i < 100; i++)
+				k = k / 2;
 			balance = balance - amount;
+
+			// Waste some time doing fake computations
+			// do not remove or modify any of the following 3 statements
+			k = 999999999;
+			for (int i = 0; i < 100; i++)
+				k = k / 2;
 		}
-
-		// Waste some time doing fake computations
-		k = 999999999;
-		for (int i = 0; i < 100; i++)
-			k = k / 2;
 	}
-
-
 }
