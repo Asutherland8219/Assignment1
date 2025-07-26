@@ -197,8 +197,6 @@ public class BlockManager
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
 		}
 
-		public void start() {
-		}
 	} // class AcquireBlock
 
 
@@ -279,7 +277,7 @@ public class BlockManager
 
 					// [s] - means ordinay slot of a stack
 					// (s) - current top of the stack
-					for(int s = 0; s < soStack.getISize(); s++)
+					for(int s = 0; s < soStack.getITop(); s++)
 						System.out.print
 						(
 							(s == BlockManager.soStack.getITop() ? "(" : "[") +
