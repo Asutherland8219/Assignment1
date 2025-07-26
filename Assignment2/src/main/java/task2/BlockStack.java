@@ -10,6 +10,18 @@
 
  */
 class BlockStack {
+
+	public class StackOverflowException extends RuntimeException {
+		public StackOverflowException(String message) {
+			super(message);
+		}
+	}
+
+	public class StackUnderflowException extends RuntimeException {
+		public StackUnderflowException(String message) {
+			super(message);
+		}
+	}
 	/**
 	 * # of letters in the English alphabet + 2
 	 */
@@ -90,7 +102,15 @@ class BlockStack {
 	public void push(final char pcBlock)
 	{
 		stack_access_counter++;
-		this.acStack[++this.iTop] = pcBlock;
+
+		if (iTop + 1 >= iSize) {
+			throw new StackOverflowException("Stack is full. Cannot push '" + pcBlock + "'.");
+		}
+		if (isEmpty()) {
+			this.acStack[++this.iTop] = 'a';
+		} else {
+			this.acStack[++this.iTop] = pcBlock;
+		}
 	}
 
 
@@ -101,13 +121,18 @@ class BlockStack {
 	 */
 	public char pop()
 	{
+		stack_access_counter++;
+		if (iTop < 0) {
+			throw new StackUnderflowException("Stack is empty. Cannot pop.");
+		}
+
 		char cBlock = this.acStack[this.iTop];
 		this.acStack[this.iTop--] = '$'; // Leave prev. value undefined
 		return cBlock;
 	}
 
 	// new methods
-	public int getTop() {
+	public int getITop() {
 		stack_access_counter++;
 		return this.iTop;
 	}
@@ -118,10 +143,10 @@ class BlockStack {
 
 	public boolean isEmpty() {
 		stack_access_counter++;
-		return this.iSize == -1;
+		return this.iTop == -1;
 	}
 
-	public int getSize() {
+	public int getISize() {
 		stack_access_counter++;
 		return this.iSize;
 	}
