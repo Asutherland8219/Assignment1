@@ -12,12 +12,12 @@ import common.*;
  * $Last Revision Date: 2019/02/02 $
 
  */
-public class BlockManager
+public class BlockManager3
 {
     /**
      * The stack itself
      */
-    private static BlockStack soStack = new BlockStack();
+    private static BlockStack3 soStack = new BlockStack3();
 
     /**
      * Number of threads dumping stack
@@ -28,9 +28,6 @@ public class BlockManager
      * Number of steps they take
      */
     private static int siThreadSteps = 5;
-
-    public int stack_access_counter = 0;
-
 
     /**
      * For atomicity
@@ -67,24 +64,24 @@ public class BlockManager
             /*
              * The birth of threads
              */
-            AcquireBlock ab1 = new AcquireBlock();
-            AcquireBlock ab2 = new AcquireBlock();
-            AcquireBlock ab3 = new AcquireBlock();
+            AcquireBlock3 ab1 = new AcquireBlock3();
+            AcquireBlock3 ab2 = new AcquireBlock3();
+            AcquireBlock3 ab3 = new AcquireBlock3();
 
             System.out.println("main(): Three AcquireBlock threads have been created.");
 
-            ReleaseBlock rb1 = new ReleaseBlock();
-            ReleaseBlock rb2 = new ReleaseBlock();
-            ReleaseBlock rb3 = new ReleaseBlock();
+            ReleaseBlock3 rb1 = new ReleaseBlock3();
+            ReleaseBlock3 rb2 = new ReleaseBlock3();
+            ReleaseBlock3 rb3 = new ReleaseBlock3();
 
             System.out.println("main(): Three ReleaseBlock threads have been created.");
 
             // Create an array object first
-            CharStackProber	aStackProbers[] = new CharStackProber[NUM_PROBERS];
+            CharStackProber3	aStackProbers[] = new CharStackProber3[NUM_PROBERS];
 
             // Then the CharStackProber objects
             for(int i = 0; i < NUM_PROBERS; i++)
-                aStackProbers[i] = new CharStackProber();
+                aStackProbers[i] = new CharStackProber3();
 
             System.out.println("main(): CharStackProber threads have been created: " + NUM_PROBERS);
 
@@ -146,7 +143,7 @@ public class BlockManager
     /**
      * Inner AcquireBlock thread class.
      */
-    static class AcquireBlock extends BaseThread
+    static class AcquireBlock3 extends common.BaseThread3
     {
         /**
          * A copy of a block returned by pop().
@@ -204,7 +201,7 @@ public class BlockManager
     /**
      * Inner class ReleaseBlock.
      */
-    static class ReleaseBlock extends BaseThread
+    static class ReleaseBlock3 extends common.BaseThread3
     {
         /**
          * Block to be returned. Default is 'a' if the stack is empty.
@@ -263,7 +260,7 @@ public class BlockManager
     /**
      * Inner class CharStackProber to dump stack contents.
      */
-    static class CharStackProber extends BaseThread
+    static class CharStackProber3 extends common.BaseThread3
     {
         public void run()
         {
@@ -281,9 +278,9 @@ public class BlockManager
                     for(int s = 0; s < soStack.getSize(); s++)
                         System.out.print
                                 (
-                                        (s == BlockManager.soStack.getTop() ? "(" : "[") +
-                                                BlockManager.soStack.getAt(s) +
-                                                (s == BlockManager.soStack.getTop() ? ")" : "]")
+                                        (s == BlockManager3.soStack.getTop() ? "(" : "[") +
+                                                BlockManager3.soStack.getAt(s) +
+                                                (s == BlockManager3.soStack.getTop() ? ")" : "]")
                                 );
 
                     System.out.println(".");
@@ -300,6 +297,8 @@ public class BlockManager
             phase2();
 
         }
+
+
     } // class CharStackProber
 
 
