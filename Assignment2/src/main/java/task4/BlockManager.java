@@ -3,6 +3,8 @@
 import common.BaseThread;
 import common.Semaphore;
 
+
+
 /**
  * Class BlockManager
  * Implements character block "manager" and does twists with threads.
@@ -14,8 +16,7 @@ import common.Semaphore;
  * $Last Revision Date: 2019/02/02 $
 
  */
-public class BlockManager
-{
+public class BlockManager {
 	/**
 	 * The stack itself
 	 */
@@ -43,7 +44,7 @@ public class BlockManager
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	//private static Semaphore s1 = new Semaphore(9);
+	private static Semaphore s1 = new Semaphore(9);
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
@@ -51,7 +52,7 @@ public class BlockManager
 	 */
 	//private static Semaphore s2 = new Semaphore(0);
 
-	//private static int phase1Count = 0;
+	private static int phase1Count = 0;
 
 	// The main()
 	public static void main(String[] argv)
@@ -152,6 +153,27 @@ public class BlockManager
 		 */
 		private char cCopy;
 
+		@Override
+		protected void phase1() {
+			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
+
+			BlockManager.mutex.P();
+			BlockManager.phase1Count++;
+
+			// If last thread to finish Phase I
+			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
+				System.out.println("All threads have finished PHASE I.");
+				// Wake everyone
+				for (int i = 0; i < BlockManager.phase1Count; i++) {
+					BlockManager.s1.V();
+				}
+			}
+			BlockManager.mutex.V();
+
+			// Wait until everyone hits barrier
+			BlockManager.s1.P();
+		}
+
 		public void run()
 		{
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
@@ -197,8 +219,6 @@ public class BlockManager
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
 		}
 
-		public void start() {
-		}
 	} // class AcquireBlock
 
 
@@ -211,6 +231,29 @@ public class BlockManager
 		 * Block to be returned. Default is 'a' if the stack is empty.
 		 */
 		private char cBlock = 'a';
+
+
+		@Override
+		protected void phase1() {
+			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
+
+			BlockManager.mutex.P();
+			BlockManager.phase1Count++;
+
+			// If last thread to finish Phase I
+			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
+				System.out.println("All threads have finished PHASE I.");
+				// Wake everyone
+				for (int i = 0; i < BlockManager.phase1Count; i++) {
+					BlockManager.s1.V();
+				}
+			}
+			BlockManager.mutex.V();
+
+			// Wait until everyone hits barrier
+			BlockManager.s1.P();
+		}
+
 
 		public void run()
 		{
@@ -266,6 +309,28 @@ public class BlockManager
 	 */
 	static class CharStackProber extends BaseThread
 	{
+		@Override
+		protected void phase1() {
+			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
+
+			BlockManager.mutex.P();
+			BlockManager.phase1Count++;
+			System.out.println("Thread-" + this.iTID + " sees phase1Count = " + BlockManager.phase1Count);
+
+			// If last thread to finish Phase I
+			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
+				System.out.println("All threads have finished PHASE I.");
+				// Wake everyone
+				for (int i = 0; i < BlockManager.phase1Count; i++) {
+					BlockManager.s1.V();
+				}
+			}
+			BlockManager.mutex.V();
+
+			// Wait until everyone hits barrier
+			BlockManager.s1.P();
+		}
+
 		public void run()
 		{
 			phase1();
@@ -279,7 +344,7 @@ public class BlockManager
 
 					// [s] - means ordinay slot of a stack
 					// (s) - current top of the stack
-					for(int s = 0; s < soStack.getISize(); s++)
+					for(int s = 0; s < soStack.getITop(); s++)
 						System.out.print
 						(
 							(s == BlockManager.soStack.getITop() ? "(" : "[") +
