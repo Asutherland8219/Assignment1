@@ -118,7 +118,7 @@ class BlockStack {
 
 	public boolean isEmpty() {
 		stack_access_counter++;
-		return this.iSize == -1;
+		return this.iTop == -1;
 	}
 
 	public int getSize() {

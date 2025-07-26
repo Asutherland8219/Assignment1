@@ -8,35 +8,19 @@ main(): CharStackProber threads have been created: 4
 ReleaseBlock thread [TID=4] starts executing.
 ReleaseBlock thread [TID=5] starts executing.
 main(): All the threads are ready.
-ReleaseBlock thread [TID=6] starts executing.
-BlockManager$CharStackProber thread [TID=9] starts PHASE I.
-BlockManager$CharStackProber thread [TID=8] starts PHASE I.
-BlockManager$ReleaseBlock thread [TID=5] starts PHASE I.
 BlockManager$CharStackProber thread [TID=10] starts PHASE I.
-BlockManager$ReleaseBlock thread [TID=6] starts PHASE I.
 BlockManager$ReleaseBlock thread [TID=4] starts PHASE I.
+BlockManager$CharStackProber thread [TID=8] starts PHASE I.
+ReleaseBlock thread [TID=6] starts executing.
+BlockManager$ReleaseBlock thread [TID=6] starts PHASE I.
+BlockManager$ReleaseBlock thread [TID=5] starts PHASE I.
 BlockManager$CharStackProber thread [TID=7] starts PHASE I.
-Some stats info in the PHASE I:
-    iTID = 4, siNextTID = 11, siTurn = 1.
-    Their "checksum": 1141
-Some stats info in the PHASE I:
-    iTID = 9, siNextTID = 11, siTurn = 1.
-    Their "checksum": 1191
-BlockManager$ReleaseBlock thread [TID=4] finishes PHASE I.
-BlockManager$CharStackProber thread [TID=9] finishes PHASE I.
+BlockManager$CharStackProber thread [TID=9] starts PHASE I.
 Some stats info in the PHASE I:
     iTID = 8, siNextTID = 11, siTurn = 1.
     Their "checksum": 1181
 BlockManager$CharStackProber thread [TID=8] finishes PHASE I.
-Stack Prober [TID=8]: Stack state: Some stats info in the PHASE I:
-    iTID = 5, siNextTID = 11, siTurn = 1.
-    Their "checksum": 1151
-BlockManager$ReleaseBlock thread [TID=5] finishes PHASE I.
 Some stats info in the PHASE I:
-    iTID = 6, siNextTID = 11, siTurn = 1.
-    Their "checksum": 1161
-BlockManager$ReleaseBlock thread [TID=6] finishes PHASE I.
-Stack Prober [TID=9]: Stack state: Some stats info in the PHASE I:
     iTID = 10, siNextTID = 11, siTurn = 1.
     Their "checksum": 1201
 BlockManager$CharStackProber thread [TID=10] finishes PHASE I.
@@ -44,56 +28,79 @@ Stack Prober [TID=10]: Stack state: Some stats info in the PHASE I:
     iTID = 7, siNextTID = 11, siTurn = 1.
     Their "checksum": 1171
 BlockManager$CharStackProber thread [TID=7] finishes PHASE I.
-Stack Prober [TID=7]: Stack state: ReleaseBlock thread [TID=4] returns Ms block e to position 4.
-ReleaseBlock thread [TID=5] returns Ms block e to position 4.
-ReleaseBlock thread [TID=6] returns Ms block e to position 4.
-[a][b][c][d][e][e].
-[a][b]Rel[TID=5]: Current value of top = 5.
-[a][b][c][d][e][e].
-Stack Prober [TID=10]: Stack state: Stack Prober [TID=7]: Stack state: [a][b][c][d][a][b][c][d][e][e].
-Stack Prober [TID=9]: Stack state: [a][b][c][d][e][e].
-[c][d][e][e].
-Stack Prober [TID=8]: Stack state: [a][b][c][d][e][e].
-Stack Prober [TID=8]: Stack state: [a][b][c][d][e][e]Rel[TID=4]: Current value of top = 4.
-[a][e][e].
-Stack Prober [TID=7]: Stack state: Stack Prober [TID=9]: Stack state: [a][b][c][d][e][e].
-Stack Prober [TID=9]: Stack state: .
-Stack Prober [TID=8]: Stack state: [a][b][b][c][d][e][e].
-[a][b][c][d][a][b][c][c][d][e][e]Stack Prober [TID=10]: Stack state: [a][e][e].
-[d][e][e].
-Stack Prober [TID=9]: Stack state: [a][b][c][d][e].
-Stack Prober [TID=8]: Stack state: [a][b][c][d][e][b][c]Stack Prober [TID=7]: Stack state: [a][e].
-[e].
-[d]BlockManager$CharStackProber thread [TID=9] starts PHASE II.
-[b]BlockManager$CharStackProber thread [TID=8] starts PHASE II.
-[e][e].
-[c][d][e][e]Stack Prober [TID=10]: Stack state: [a][b][c][d][e]Some stats info in the PHASE II:
+Stack Prober [TID=7]: Stack state: Some stats info in the PHASE I:
+    iTID = 5, siNextTID = 11, siTurn = 1.
+    Their "checksum": 1151
+BlockManager$ReleaseBlock thread [TID=5] finishes PHASE I.
+Stack Prober [TID=8]: Stack state: Some stats info in the PHASE I:
     iTID = 9, siNextTID = 11, siTurn = 1.
     Their "checksum": 1191
+BlockManager$CharStackProber thread [TID=9] finishes PHASE I.
+Stack Prober [TID=9]: Stack state: Some stats info in the PHASE I:
+    iTID = 6, siNextTID = 11, siTurn = 1.
+    Their "checksum": 1161
+BlockManager$ReleaseBlock thread [TID=6] finishes PHASE I.
+[a][b][c](d)[$][$].
+Stack Prober [TID=7]: Stack state: [a][b][c](d)[$][$].
+Stack Prober [TID=7]: Stack state: [a][b][c](d)[$][$].
+Stack Prober [TID=7]: Stack state: [a][b][a][b][c](d)[$][$].
+Stack Prober [TID=10]: Stack state: [a][b][c](d)[$][$].
+Stack Prober [TID=10]: Stack state: [a][a][b][c](d)[$][$].
+Stack Prober [TID=8]: Stack state: [a][b][c](d)[$][$].
+Stack Prober [TID=8]: Stack state: [a][b][c](d)[$][$].
+Stack Prober [TID=8]: Stack state: [a][b][c](d)[$][$].
+Stack Prober [TID=8]: Stack state: [a][b][c](d)[$][$].
+BlockManager$CharStackProber thread [TID=8] starts PHASE II.
+Some stats info in the PHASE I:
+    iTID = 4, siNextTID = 11, siTurn = 1.
+    Their "checksum": 1141
+BlockManager$ReleaseBlock thread [TID=4] finishes PHASE I.
+ReleaseBlock thread [TID=4] returns Ms block e to position 4.
 Some stats info in the PHASE II:
     iTID = 8, siNextTID = 11, siTurn = 1.
     Their "checksum": 1181
-.
-BlockManager$CharStackProber thread [TID=9] finishes PHASE II.
-[e].
 BlockManager$CharStackProber thread [TID=8] finishes PHASE II.
-Stack Prober [TID=7]: Stack state: [a][b][c]Stack Prober [TID=10]: Stack state: [d][e][a][b][c][d][e][e][e].
-.
-BlockManager$CharStackProber thread [TID=10] starts PHASE II.
+[a][b][c][d](e)[$].
+Stack Prober [TID=9]: Stack state: [a][b][c][d](e)[$].
+Stack Prober [TID=9]: Stack state: [a][b][c][d](e)[$].
+Stack Prober [TID=9]: Stack state: [a][b][c][d](e)[$].
+Stack Prober [TID=9]: Stack state: [a][b][c][d](e)[$].
+BlockManager$CharStackProber thread [TID=9] starts PHASE II.
 Some stats info in the PHASE II:
-    iTID = 10, siNextTID = 11, siTurn = 1.
-    Their "checksum": 1201
-BlockManager$CharStackProber thread [TID=10] finishes PHASE II.
+    iTID = 9, siNextTID = 11, siTurn = 1.
+    Their "checksum": 1191
+BlockManager$CharStackProber thread [TID=9] finishes PHASE II.
+[c][d](e)[$].
+Stack Prober [TID=7]: Stack state: [a][b][c][d](e)[$].
 BlockManager$CharStackProber thread [TID=7] starts PHASE II.
 Some stats info in the PHASE II:
     iTID = 7, siNextTID = 11, siTurn = 1.
     Their "checksum": 1171
 BlockManager$CharStackProber thread [TID=7] finishes PHASE II.
+[b][c][d](e)[$].
+Stack Prober [TID=10]: Stack state: [a][b][c][d](e)[$].
+Stack Prober [TID=10]: Stack state: [a][b][c][d](e)[$].
+BlockManager$CharStackProber thread [TID=10] starts PHASE II.
+Some stats info in the PHASE II:
+    iTID = 10, siNextTID = 11, siTurn = 1.
+    Their "checksum": 1201
+BlockManager$CharStackProber thread [TID=10] finishes PHASE II.
+ReleaseBlock thread [TID=6] returns Ms block e to position 4.
+Rel[TID=6]: Current value of top = 5.
+ReleaseBlock thread [TID=5] returns Ms block e to position 4.
+Rel[TID=6]: Current value of stack top = e.
+BlockManager$ReleaseBlock thread [TID=6] starts PHASE II.
+Some stats info in the PHASE II:
+    iTID = 6, siNextTID = 11, siTurn = 1.
+    Their "checksum": 1161
+BlockManager$ReleaseBlock thread [TID=6] finishes PHASE II.
+ReleaseBlock thread [TID=6] terminates.
+Rel[TID=4]: Current value of top = 4.
 Caught exception : java.lang.ArrayIndexOutOfBoundsException
 Caught exception : java.lang.ArrayIndexOutOfBoundsException
+Message          : Index 6 out of bounds for length 6
 Message          : Index 6 out of bounds for length 6
 Stack Trace      :
-Message          : Index 6 out of bounds for length 6
 Stack Trace      :
 java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 6
 	at BlockStack.pick(BlockStack.java:74)
@@ -101,9 +108,3 @@ java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 6
 java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 6
 	at BlockStack.push(BlockStack.java:93)
 	at BlockManager$ReleaseBlock.run(BlockManager.java:233)
-Caught exception : java.lang.ArrayIndexOutOfBoundsException
-Message          : Index 6 out of bounds for length 6
-Stack Trace      :
-java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 6
-	at BlockStack.pick(BlockStack.java:74)
-	at BlockManager$ReleaseBlock.run(BlockManager.java:244)

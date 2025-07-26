@@ -83,6 +83,11 @@ class BlockStack {
 	 */
 	public char pick() {
 		stack_access_counter++;
+
+		if (iTop < 0) {
+			throw new StackUnderflowException("Stack is empty. Cannot pop.");
+		}
+
 		return this.acStack[this.iTop];
 	}
 
