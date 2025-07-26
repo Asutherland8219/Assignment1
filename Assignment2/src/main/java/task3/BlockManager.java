@@ -1,6 +1,7 @@
 // Import (aka include) some stuff.
 
 import common.BaseThread;
+import common.Semaphore;
 
 /**
  * Class BlockManager
@@ -33,7 +34,7 @@ public class BlockManager
 	/**
 	 * For atomicity
 	 */
-	//private static Semaphore mutex = new Semaphore(...);
+	static Semaphore mutex = new Semaphore(1);
 
 	/*
 	 * For synchronization
@@ -42,14 +43,15 @@ public class BlockManager
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	//private static Semaphore s1 = new Semaphore(...);
+	//private static Semaphore s1 = new Semaphore(9);
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
 	 * in the thread creation order
 	 */
-	//private static Semaphore s2 = new Semaphore(...);
+	//private static Semaphore s2 = new Semaphore(0);
 
+	//private static int phase1Count = 0;
 
 	// The main()
 	public static void main(String[] argv)

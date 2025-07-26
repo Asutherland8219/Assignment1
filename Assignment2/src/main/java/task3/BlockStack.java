@@ -11,6 +11,7 @@
  */
 class BlockStack {
 
+
 	public class StackOverflowException extends RuntimeException {
 		public StackOverflowException(String message) {
 			super(message);
@@ -81,14 +82,25 @@ class BlockStack {
 	 *
 	 * @return top element of the stack, char
 	 */
-	public char pick() {
-		stack_access_counter++;
+	public char pick()
+	{
+		BlockManager.mutex.P();
+		try
+		{
+			stack_access_counter++;
 
-		if (iTop < 0) {
-			throw new StackUnderflowException("Stack is empty. Cannot pop.");
+			if (isEmpty()) {
+				throw new StackUnderflowException("Stack is empty. Cannot pick.");
+			}
+
+			char item = acStack[iTop];
+			System.out.println("Picked: " + item);
+			return item;
 		}
-
-		return this.acStack[this.iTop];
+		finally
+		{
+			BlockManager.mutex.V();
+		}
 	}
 
 	/**
@@ -96,9 +108,25 @@ class BlockStack {
 	 *
 	 * @return the element, char
 	 */
-	public char getAt(final int piPosition) {
-		stack_access_counter++;
-		return this.acStack[piPosition];
+	public char getAt(int position)
+	{
+		BlockManager.mutex.P();
+		try
+		{
+			stack_access_counter++;
+
+			if (position < 0 || position > iTop) {
+				throw new IndexOutOfBoundsException("Invalid stack position: " + position);
+			}
+
+			char item = acStack[position];
+			System.out.println("Got at " + position + ": " + item);
+			return item;
+		}
+		finally
+		{
+			BlockManager.mutex.V();
+		}
 	}
 
 	/**
@@ -106,17 +134,29 @@ class BlockStack {
 	 */
 	public void push(final char pcBlock)
 	{
-		stack_access_counter++;
+		BlockManager.mutex.P();
+		try
+		{
+			stack_access_counter++;
 
-		if (iTop + 1 >= iSize) {
-			throw new StackOverflowException("Stack is full. Cannot push '" + pcBlock + "'.");
+			if (iTop + 1 >= iSize) {
+				throw new StackOverflowException("Stack is full. Cannot push '" + pcBlock + "'.");
+			}
+
+			if (isEmpty()) {
+				this.acStack[++this.iTop] = 'a';
+			} else {
+				this.acStack[++this.iTop] = pcBlock;
+			}
+
+			System.out.println("Pushed: " + this.acStack[iTop]); // Optional: log action
 		}
-		if (isEmpty()) {
-			this.acStack[++this.iTop] = 'a';
-		} else {
-			this.acStack[++this.iTop] = pcBlock;
+		finally
+		{
+			BlockManager.mutex.V();
 		}
 	}
+
 
 
 	/**
@@ -126,15 +166,26 @@ class BlockStack {
 	 */
 	public char pop()
 	{
-		stack_access_counter++;
-		if (iTop < 0) {
-			throw new StackUnderflowException("Stack is empty. Cannot pop.");
-		}
+		BlockManager.mutex.P();
+		try
+		{
+			stack_access_counter++;
 
-		char cBlock = this.acStack[this.iTop];
-		this.acStack[this.iTop--] = '$'; // Leave prev. value undefined
-		return cBlock;
+			if (isEmpty()) {
+				throw new StackUnderflowException("Stack is empty. Cannot pop.");
+			}
+
+			char item = acStack[iTop];
+			acStack[iTop--] = '*'; // Mark popped position
+			System.out.println("Popped: " + item);
+			return item;
+		}
+		finally
+		{
+			BlockManager.mutex.V();
+		}
 	}
+
 
 	// new methods
 	public int getITop() {
