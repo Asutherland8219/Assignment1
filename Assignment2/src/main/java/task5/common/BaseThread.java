@@ -34,13 +34,17 @@ public class BaseThread extends Thread
 	/**
 	 * TID of a thread to proceed to the phase II.
 	 */
-	private static int siTurn = 1;
+	public static int siTurn = 1;
 
 	/*
 	 * ------------
 	 * Constructors
 	 * ------------
 	 */
+
+	public static void incrementTurn() {
+		siTurn++;
+	}
 
 	/**
 	 * Default
@@ -121,18 +125,19 @@ public class BaseThread extends Thread
 	 * Just a make up for the PHASE II to make it somewhat tangeable.
          * Must be atomic as it touches siTurn and siNextTID.
 	 */
+
 	protected synchronized void phase2()
 	{
 		System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] starts PHASE II.");
 
 		System.out.println
-		(
-			"Some stats info in the PHASE II:\n" +
-			"    iTID = " + this.iTID +
-			", siNextTID = " + siNextTID +
-			", siTurn = " + siTurn +
-			".\n    Their \"checksum\": " + (siNextTID * 100 + this.iTID * 10 + siTurn)
-		);
+				(
+						"Some stats info in the PHASE II:\n" +
+								"    iTID = " + this.iTID +
+								", siNextTID = " + siNextTID +
+								", siTurn = " + siTurn +
+								".\n    Their \"checksum\": " + (siNextTID * 100 + this.iTID * 10 + siTurn)
+				);
 
 		System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] finishes PHASE II.");
 	}
@@ -171,7 +176,7 @@ public class BaseThread extends Thread
 	{
 		return turnTestAndSet(true);
 	}
-
 }
+
 
 // EOF

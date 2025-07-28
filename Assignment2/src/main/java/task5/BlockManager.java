@@ -44,21 +44,33 @@ public class BlockManager {
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	private static Semaphore s1 = new Semaphore(9);
+	private static Semaphore s1 = new Semaphore(0);
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
 	 * in the thread creation order
 	 */
-	//private static Semaphore s2 = new Semaphore(0);
+	private static Semaphore s2 = new Semaphore(0);
 
 	private static int phase1Count = 0;
+	private static int phase2Count = 0;
+
+	public Semaphore get_s1() { return BlockManager.s1;}
+	public Semaphore get_s2() { return BlockManager.s2;}
+
+	public Semaphore get_mutex() { return BlockManager.mutex;}
 
 	// The main()
 	public static void main(String[] argv)
 	{
 		try
 		{
+
+			// Turn Initialization
+			BaseThread.setInitialTurn(1);
+			System.out.println(">>> siTurn initialized to: " + BaseThread.siTurn);
+			BlockManager.s2.V();
+
 			// Some initial stats...
 			System.out.println("Main thread starts executing.");
 			System.out.println("Initial value of top = " + soStack.getITop() + ".");
@@ -88,6 +100,7 @@ public class BlockManager {
 				aStackProbers[i] = new CharStackProber();
 
 			System.out.println("main(): CharStackProber threads have been created: " + NUM_PROBERS);
+
 
 			/*
 			 * Twist 'em all
@@ -174,6 +187,39 @@ public class BlockManager {
 			BlockManager.s1.P();
 		}
 
+		@Override
+		protected void phase2() {
+			while (!turnTestAndSet(false)) {
+				System.out.println("Thread-" + this.iTID + " has attempted but is waiting for its turn to finish PHASE II. siTurn = " + BaseThread.siTurn);
+				BlockManager.s2.P();  // only BlockManager knows about s2
+			}
+
+			BlockManager.s2.V();
+
+			System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] starts PHASE II.");
+
+			System.out.println("Some stats info in the PHASE II:\n" +
+					"    iTID = " + this.iTID +
+					", siNextTID = " + siNextTID +
+					", siTurn = " + BaseThread.siTurn +
+					".\n    Their \"checksum\": " + (siNextTID * 100 + this.iTID * 10 + BaseThread.siTurn));
+
+			System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] finishes PHASE II.");
+
+			BlockManager.mutex.P();
+			BaseThread.incrementTurn();  // shared utility
+			BlockManager.phase2Count++;
+			boolean isLast = (BlockManager.phase2Count == (3 + 3 + BlockManager.NUM_PROBERS));
+			BlockManager.mutex.V();
+
+			BlockManager.s2.V();  // let next thread check
+
+			if (isLast) {
+				System.out.println("All threads have finished PHASE II.");
+			}
+		}
+
+
 		public void run()
 		{
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
@@ -254,6 +300,37 @@ public class BlockManager {
 			BlockManager.s1.P();
 		}
 
+		@Override
+		protected void phase2() {
+			while (!turnTestAndSet(false)) {
+				System.out.println("Thread-" + this.iTID + " has attempted but is waiting for its turn to finish PHASE II. siTurn = " + BaseThread.siTurn);
+				BlockManager.s2.P();  // only BlockManager knows about s2
+			}
+			BlockManager.s2.V();
+
+			System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] starts PHASE II.");
+
+			System.out.println("Some stats info in the PHASE II:\n" +
+					"    iTID = " + this.iTID +
+					", siNextTID = " + siNextTID +
+					", siTurn = " + BaseThread.siTurn +
+					".\n    Their \"checksum\": " + (siNextTID * 100 + this.iTID * 10 + BaseThread.siTurn));
+
+			System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] finishes PHASE II.");
+
+			BlockManager.mutex.P();
+			BaseThread.incrementTurn();  // shared utility
+			BlockManager.phase2Count++;
+			boolean isLast = (BlockManager.phase2Count == (3 + 3 + BlockManager.NUM_PROBERS));
+			BlockManager.mutex.V();
+
+			BlockManager.s2.V();  // let next thread check
+
+			if (isLast) {
+				System.out.println("All threads have finished PHASE II.");
+			}
+		}
+
 
 		public void run()
 		{
@@ -330,6 +407,39 @@ public class BlockManager {
 			// Wait until everyone hits barrier
 			BlockManager.s1.P();
 		}
+
+		@Override
+		protected void phase2() {
+			while (!turnTestAndSet(false)) {
+				System.out.println("Thread-" + this.iTID + " has attempted but is waiting for its turn to finish PHASE II. siTurn = " + BaseThread.siTurn);
+				BlockManager.s2.P();  // only BlockManager knows about s2
+			}
+			BlockManager.s2.V();
+
+
+			System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] starts PHASE II.");
+
+			System.out.println("Some stats info in the PHASE II:\n" +
+					"    iTID = " + this.iTID +
+					", siNextTID = " + siNextTID +
+					", siTurn = " + BaseThread.siTurn +
+					".\n    Their \"checksum\": " + (siNextTID * 100 + this.iTID * 10 + BaseThread.siTurn));
+
+			System.out.println(this.getClass().getName() + " thread [TID=" + this.iTID + "] finishes PHASE II.");
+
+			BlockManager.mutex.P();
+			BaseThread.incrementTurn();  // shared utility
+			BlockManager.phase2Count++;
+			boolean isLast = (BlockManager.phase2Count == (3 + 3 + BlockManager.NUM_PROBERS));
+			BlockManager.mutex.V();
+
+			BlockManager.s2.V();  // let next thread check
+
+			if (isLast) {
+				System.out.println("All threads have finished PHASE II.");
+			}
+		}
+
 
 		public void run()
 		{
