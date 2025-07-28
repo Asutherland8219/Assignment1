@@ -153,33 +153,27 @@ public class BlockManager {
 		 */
 		private char cCopy;
 
-		@Override
-		protected void phase1() {
-			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
-
-			BlockManager.mutex.P();
-			BlockManager.phase1Count++;
-
-			// If last thread to finish Phase I
-			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
-				System.out.println("All threads have finished PHASE I.");
-				// Wake everyone
-				for (int i = 0; i < BlockManager.phase1Count; i++) {
-					BlockManager.s1.V();
-				}
-			}
-			BlockManager.mutex.V();
-
-			// Wait until everyone hits barrier
-			BlockManager.s1.P();
-		}
-
 		public void run()
 		{
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
 
 
 			phase1();
+
+			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
+
+			BlockManager.mutex.P();
+			BlockManager.phase1Count++;
+
+			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
+				System.out.println("All threads have finished PHASE I.");
+				for (int i = 0; i < BlockManager.phase1Count; i++) {
+					BlockManager.s1.V();
+				}
+			}
+			BlockManager.mutex.V();
+
+			BlockManager.s1.P();
 
 
 			try
@@ -232,29 +226,6 @@ public class BlockManager {
 		 */
 		private char cBlock = 'a';
 
-
-		@Override
-		protected void phase1() {
-			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
-
-			BlockManager.mutex.P();
-			BlockManager.phase1Count++;
-
-			// If last thread to finish Phase I
-			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
-				System.out.println("All threads have finished PHASE I.");
-				// Wake everyone
-				for (int i = 0; i < BlockManager.phase1Count; i++) {
-					BlockManager.s1.V();
-				}
-			}
-			BlockManager.mutex.V();
-
-			// Wait until everyone hits barrier
-			BlockManager.s1.P();
-		}
-
-
 		public void run()
 		{
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] starts executing.");
@@ -262,6 +233,20 @@ public class BlockManager {
 
 			phase1();
 
+			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
+
+			BlockManager.mutex.P();
+			BlockManager.phase1Count++;
+
+			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
+				System.out.println("All threads have finished PHASE I.");
+				for (int i = 0; i < BlockManager.phase1Count; i++) {
+					BlockManager.s1.V();
+				}
+			}
+			BlockManager.mutex.V();
+
+			BlockManager.s1.P();
 
 			try
 			{
@@ -309,31 +294,24 @@ public class BlockManager {
 	 */
 	static class CharStackProber extends BaseThread
 	{
-		@Override
-		protected void phase1() {
+		public void run()
+		{
+			phase1();
+
 			System.out.println("Thread-" + this.getTID() + " has finished PHASE I.");
 
 			BlockManager.mutex.P();
 			BlockManager.phase1Count++;
-			System.out.println("Thread-" + this.iTID + " sees phase1Count = " + BlockManager.phase1Count);
 
-			// If last thread to finish Phase I
 			if (BlockManager.phase1Count == (3 + 3 + BlockManager.NUM_PROBERS)) {
 				System.out.println("All threads have finished PHASE I.");
-				// Wake everyone
 				for (int i = 0; i < BlockManager.phase1Count; i++) {
 					BlockManager.s1.V();
 				}
 			}
 			BlockManager.mutex.V();
 
-			// Wait until everyone hits barrier
 			BlockManager.s1.P();
-		}
-
-		public void run()
-		{
-			phase1();
 
 
 			try
