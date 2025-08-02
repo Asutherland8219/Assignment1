@@ -12,6 +12,17 @@ public class Philosopher extends BaseThread
 	 * Max time an action can take (in milliseconds)
 	 */
 	public static final long TIME_TO_WASTE = 1000;
+	private int pid;
+
+	public Philosopher() {
+		super();
+		setName("Philosopher-" + getTID());
+	}
+
+	public int getTID() {
+		return this.pid;
+	}
+
 
 	/**
 	 * The act of eating.
@@ -97,21 +108,17 @@ public class Philosopher extends BaseThread
 
 			think();
 
-			/*
-			 * TODO:
-			 * A decision is made at random whether this particular
-			 * philosopher is about to say something terribly useful.
-			 */
-			if(true == false)
+			// 50% chance the philosopher decides to talk
+			if (Math.random() < 0.5)
 			{
-				// Some monitor ops down here...
+				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
-				// ...
+				DiningPhilosophers.soMonitor.endTalk();
 			}
 
 			Thread.yield();
 		}
-	} // run()
+	}
 
 	/**
 	 * Prints out a phrase from the array of phrases at random.

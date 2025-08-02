@@ -76,7 +76,7 @@ public class BaseThread extends Thread
 	 * Retrieves our TID
 	 * @return TID, integer
 	 */
-	public final int getTID()
+	public int getTID()
 	{
 		return this.iTID;
 	}
