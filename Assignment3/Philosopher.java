@@ -102,9 +102,6 @@ public class Philosopher extends BaseThread
 			 * A decision is made at random whether this particular
 			 * philosopher is about to say something terribly useful.
 			 */
-			try {
-
-			}
 			if(true == false)
 			{
 				// Some monitor ops down here...
