@@ -46,28 +46,27 @@ public class DiningPhilosophers
 	{
 		try
 		{
-			/*
-			 * TODO:
-			 * Should be settable from the command line
-			 * or the default if no arguments supplied.
-			 */
+			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+			
+			// TASK 4 - Accept command line argument for number of philosophers
+			if (argv.length > 0) {
+				try {
+					iPhilosophers = Integer.parseInt(argv[0]);
+					if (iPhilosophers <= 0) {
+						System.err.println("\"" + argv[0] + "\" is not a positive decimal integer");
+						System.err.println("Usage: java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]");
+						System.exit(1);
+					}
+				} catch (NumberFormatException e) {
+					System.err.println("\"" + argv[0] + "\" is not a positive decimal integer");
+					System.err.println("Usage: java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]");
+					System.exit(1);
+				}
+			}
 
-//			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
-//			if (argv.length > 0) {
-//				try {
-//					iPhilosophers = Integer.parseInt(argv[0]);
-//				} catch (NumberFormatException e) {
-//					System.err.println("Invalid argument, using default: " + DEFAULT_NUMBER_OF_PHILOSOPHERS);
-//				}
-//			}
-
-			/** TASK 3 - Randomize Philosophers and their priority
+			/** TASK 3 - Generate priorities for the specified number of philosophers
 			 */
 			Random rand = new Random();
-
-			// Generate a random number of philosophers between 1 and 10
-			int iPhilosophers = rand.nextInt(10) + 1;
-			System.out.println("Random number of philosophers selected: " + iPhilosophers);
 
 			// Generate unique random priorities from 1 to N
 			List<Integer> prioritiesList = new ArrayList<>();
@@ -89,11 +88,8 @@ public class DiningPhilosophers
 			}
 			System.out.println();
 
-
 			// Make the monitor aware of how many philosophers there are
-//			soMonitor = new Monitor(iPhilosophers);
 			soMonitor = new Monitor(iPhilosophers, priorities);
-
 
 			// Space for all the philosophers
 			Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
