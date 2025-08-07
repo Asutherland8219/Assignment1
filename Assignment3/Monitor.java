@@ -1,3 +1,4 @@
+
 /**
  * Class Monitor
  * To synchronize dining philosophers.
@@ -20,19 +21,23 @@ public class Monitor
 	private Object[] self;
 	boolean isTalking = false;
 
+	// NEW variables from Priority Monitor (Task 3)
+	private final int[] priority_list; // priority list
+
+
 
 	/**
 	 * Constructor
 	 */
-	public Monitor(int piNumberOfPhilosophers)
+	public Monitor(int piNumberOfPhilosophers, int[] n)
 
 	{
 		this.numPhilosophers = piNumberOfPhilosophers;
-		this.aStates = new State[numPhilosophers];
-		this.self = new Object[numPhilosophers];
+        this.aStates = new State[piNumberOfPhilosophers];
+		this.self = new Object[piNumberOfPhilosophers];
 
-		aStates = new State[piNumberOfPhilosophers];
-		self = new Object[piNumberOfPhilosophers];
+		// Task 3 priority list
+		this.priority_list = n.clone();
 
 		for (int i = 0; i < piNumberOfPhilosophers; i++)
 		{
@@ -54,17 +59,19 @@ public class Monitor
 	{
 		synchronized(this)
 		{
-			aStates[pID] = State.HUNGRY;
-			test(pID); // try to eat now
+			int index = pID - 1; // Convert philosopher ID to array index
+			aStates[index] = State.HUNGRY;
 
-			if (aStates[pID] != State.EATING)
+			while (aStates[index] != State.EATING)
 			{
-				try {
-					synchronized (self[pID]) {
-						self[pID].wait(); // wait to be notified
+				test(index);
+				if (aStates[index] != State.EATING) {
+					try {
+						// Release the monitor lock before waiting
+						wait();
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
 					}
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
 				}
 			}
 		}
@@ -78,9 +85,15 @@ public class Monitor
 	{
 		synchronized(this)
 		{
-			aStates[piTID] = State.THINKING;
-			test((piTID + 1) % aStates.length);           // Right neighbor
-			test((piTID + aStates.length - 1) % aStates.length); // Left neighbor
+			int index = piTID - 1; // Convert philosopher ID to array index
+			aStates[index] = State.THINKING;
+			
+			// Test all philosophers to see if any can now eat
+			for (int i = 0; i < numPhilosophers; i++) {
+				if (aStates[i] == State.HUNGRY) {
+					test(i);
+				}
+			}
 		}
 	}
 
@@ -125,12 +138,41 @@ public class Monitor
 	private void test(int i) {
 		if (aStates[i] == State.HUNGRY &&
 				aStates[left(i)] != State.EATING &&
-				aStates[right(i)] != State.EATING) {
+				aStates[right(i)] != State.EATING &&
+				canEatWithPriority(i)) {
 			aStates[i] = State.EATING;
-			synchronized (self[i]) {
-				self[i].notify(); // signal this philosopher
+			// Notify all waiting philosophers
+			notifyAll();
+		}
+	}
+
+	/** TASK-3 Simplified priority checking to prevent deadlock
+	 * A philosopher can eat if they have the highest priority among all hungry philosophers
+	 */
+	private boolean canEatWithPriority(int i) {
+		int myPriority = priority_list[i];
+		
+		// Only check priority if there are other hungry philosophers
+		boolean hasOtherHungry = false;
+		for (int j = 0; j < numPhilosophers; j++) {
+			if (j != i && aStates[j] == State.HUNGRY) {
+				hasOtherHungry = true;
+				break;
 			}
 		}
+		
+		// If no other hungry philosophers, allow eating
+		if (!hasOtherHungry) {
+			return true;
+		}
+		
+		// Check if any higher priority philosopher is hungry
+		for (int j = 0; j < numPhilosophers; j++) {
+			if (j != i && aStates[j] == State.HUNGRY && priority_list[j] < myPriority) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
 

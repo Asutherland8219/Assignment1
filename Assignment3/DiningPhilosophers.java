@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Class DiningPhilosophers
  * The main starter.
@@ -47,17 +52,48 @@ public class DiningPhilosophers
 			 * or the default if no arguments supplied.
 			 */
 
-			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
-			if (argv.length > 0) {
-				try {
-					iPhilosophers = Integer.parseInt(argv[0]);
-				} catch (NumberFormatException e) {
-					System.err.println("Invalid argument, using default: " + DEFAULT_NUMBER_OF_PHILOSOPHERS);
-				}
+//			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+//			if (argv.length > 0) {
+//				try {
+//					iPhilosophers = Integer.parseInt(argv[0]);
+//				} catch (NumberFormatException e) {
+//					System.err.println("Invalid argument, using default: " + DEFAULT_NUMBER_OF_PHILOSOPHERS);
+//				}
+//			}
+
+			/** TASK 3 - Randomize Philosophers and their priority
+			 */
+			Random rand = new Random();
+
+			// Generate a random number of philosophers between 1 and 10
+			int iPhilosophers = rand.nextInt(10) + 1;
+			System.out.println("Random number of philosophers selected: " + iPhilosophers);
+
+			// Generate unique random priorities from 1 to N
+			List<Integer> prioritiesList = new ArrayList<>();
+			for (int i = 1; i <= iPhilosophers; i++) {
+				prioritiesList.add(i);
+			}
+			Collections.shuffle(prioritiesList);
+
+			// Convert to int[]
+			int[] priorities = new int[iPhilosophers];
+			for (int i = 0; i < iPhilosophers; i++) {
+				priorities[i] = prioritiesList.get(i);
 			}
 
+			// Print priorities
+			System.out.print("Assigned priorities (1 = highest): ");
+			for (int p : priorities) {
+				System.out.print(p + " ");
+			}
+			System.out.println();
+
+
 			// Make the monitor aware of how many philosophers there are
-			soMonitor = new Monitor(iPhilosophers);
+//			soMonitor = new Monitor(iPhilosophers);
+			soMonitor = new Monitor(iPhilosophers, priorities);
+
 
 			// Space for all the philosophers
 			Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
@@ -65,7 +101,8 @@ public class DiningPhilosophers
 			// Let 'em sit down
 			for(int j = 0; j < iPhilosophers; j++)
 			{
-				aoPhilosophers[j] = new Philosopher();
+				// TASK-3 Add the id passed in so we can identify the philosopher
+				aoPhilosophers[j] = new Philosopher(j);
 				aoPhilosophers[j].start();
 			}
 

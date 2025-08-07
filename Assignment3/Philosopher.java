@@ -12,15 +12,13 @@ public class Philosopher extends BaseThread
 	 * Max time an action can take (in milliseconds)
 	 */
 	public static final long TIME_TO_WASTE = 1000;
-	private int pid;
+	private final int id;
 
-	public Philosopher() {
-		super();
-		setName("Philosopher-" + getTID());
-	}
-
-	public int getTID() {
-		return this.pid;
+	public Philosopher(int id) {
+//		super();
+		// TASK-3 Add ID field instaed of relying on thread id
+		this.id = id + 1;
+		setName("Philosopher-" + id);
 	}
 
 
@@ -36,11 +34,11 @@ public class Philosopher extends BaseThread
 	{
 		try
 		{
-			System.out.println("Philosopher" + getName() + " is eating");
+			System.out.println("Philosopher " + id + " is eating");
 			Thread.yield();
 			sleep((long)(Math.random() * TIME_TO_WASTE));
 			Thread.yield();
-			System.out.println("Philosopher" + getName() + " is DONE eating");
+			System.out.println("Philosopher " + id + " is DONE eating");
 		}
 		catch(InterruptedException e)
 		{
@@ -61,11 +59,11 @@ public class Philosopher extends BaseThread
 	public void think()
 	{
 		try {
-			System.out.println("Philosopher " + getTID() + " is thinking...");
+			System.out.println("Philosopher " + id + " is thinking...");
 			Thread.yield();
 			sleep((long)(Math.random() * TIME_TO_WASTE));
 			Thread.yield();
-			System.out.println("Philosopher " + getTID() + " is DONE thinking...");
+			System.out.println("Philosopher " + id + " is DONE thinking...");
 		} catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -82,11 +80,11 @@ public class Philosopher extends BaseThread
 	public void talk()
 	{
 		try {
-			System.out.println("Philosopher " + getTID() + " is talking...");
+			System.out.println("Philosopher " + id + " is talking...");
 			Thread.yield();
 			saySomething();
 			Thread.yield();
-			System.out.println("Philosopher " + getTID() + " is DONE talking...");
+			System.out.println("Philosopher " + id + " is DONE talking...");
 		}
 		catch(Exception e) {
 			System.err.println("Philosopher.talk():");
@@ -100,11 +98,11 @@ public class Philosopher extends BaseThread
 	{
 		for(int i = 0; i < DiningPhilosophers.DINING_STEPS; i++)
 		{
-			DiningPhilosophers.soMonitor.pickUp(getTID());
+			DiningPhilosophers.soMonitor.pickUp(id);
 
 			eat();
 
-			DiningPhilosophers.soMonitor.putDown(getTID());
+			DiningPhilosophers.soMonitor.putDown(id);
 
 			think();
 
@@ -132,12 +130,12 @@ public class Philosopher extends BaseThread
 			"You know, true is false and false is true if you think of it",
 			"2 + 2 = 5 for extremely large values of 2...",
 			"If thee cannot speak, thee must be silent",
-			"My number is " + getTID() + ""
+			"My number is " + id + ""
 		};
 
 		System.out.println
 		(
-			"Philosopher " + getTID() + " says: " +
+			"Philosopher " + id + " says: " +
 			astrPhrases[(int)(Math.random() * astrPhrases.length)]
 		);
 	}
