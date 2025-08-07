@@ -98,6 +98,12 @@ public class Philosopher extends BaseThread
 	{
 		for(int i = 0; i < DiningPhilosophers.DINING_STEPS; i++)
 		{
+			// Check if philosopher is still active (not removed)
+			if (!DiningPhilosophers.soMonitor.isPhilosopherActive(id)) {
+				System.out.println("Philosopher " + id + " has left the table");
+				break;
+			}
+
 			DiningPhilosophers.soMonitor.pickUp(id);
 
 			eat();
