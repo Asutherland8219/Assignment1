@@ -18,14 +18,14 @@ public class Monitor
 	 * ------------
 	 */
 
-	// NEW states for chopsticks
-	// Change to arrayList to be dynamic, add LEFT state indicating a philosopher has left the table
+	// TASK-3 NEW states for chopsticks
+	// TASK-5 Change to arrayList to be dynamic, add LEFT state indicating a philosopher has left the table
 	private enum State { THINKING, HUNGRY, EATING, LEFT }
 	private ArrayList<State> aStates;
 	private ArrayList<Object> self;
 	boolean isTalking = false;
 
-	// NEW variables from Priority Monitor (Task 3)
+	// TASK-3 NEW variables from Priority Monitor
 	private ArrayList<Integer> priority_list; // priority list
 
 	// TASK 6 - Pepper shakers management
@@ -187,10 +187,9 @@ public class Monitor
 		}
 		return true;
 	}
-
 	/**
 	 * TASK 5 - Add a new philosopher to the table
-	 * @param priority The priority of the new philosopher (1 = highest)
+	 * and add priority as param
 	 */
 	public synchronized int addPhilosopher(int priority) {
 		int newId = numPhilosophers + 1;
@@ -200,7 +199,7 @@ public class Monitor
 		aStates.add(State.THINKING);
 		self.add(new Object());
 		priority_list.add(priority);
-		philosopherHasPepper.add(false); // TASK 6 - Initialize pepper tracking
+		philosopherHasPepper.add(false); // TASK-6 - Initialize pepper tracking
 		
 		System.out.println("Philosopher " + newId + " joined the table with priority " + priority);
 		return newId;
@@ -208,7 +207,7 @@ public class Monitor
 
 	/**
 	 * TASK 5 - Remove a philosopher from the table
-	 * @param philosopherId The ID of the philosopher to remove
+	 * param is The ID of the philosopher to remove
 	 * return true if successfully removed, false if philosopher was eating
 	 */
 	public synchronized boolean removePhilosopher(int philosopherId) {
@@ -233,16 +232,17 @@ public class Monitor
 	}
 
 	/**
-	 * TASK 5 - Get current number of active philosophers
+	 * TASK-5 - Get current number of active philosophers
 	 * return Number of philosophers at the table
 	 */
+
 	public synchronized int getPhilosopherCount() {
 		return numPhilosophers;
 	}
 
 	/**
 	 * TASK 5 - Check if a philosopher is still at the table
-	 * @param philosopherId The ID of the philosopher to check
+	 * passing philosopherId as param
 	 * return true if philosopher is still at the table
 	 */
 	public synchronized boolean isPhilosopherActive(int philosopherId) {
@@ -252,9 +252,10 @@ public class Monitor
 
 	/**
 	 * TASK 6 - Request a pepper shaker for eating
-	 * @param philosopherId The ID of the philosopher requesting pepper
-	 * @return true if pepper shaker was obtained, false otherwise
+	 * passing philosopherId as param
+	 * return true if pepper shaker was obtained, false otherwise
 	 */
+
 	public synchronized boolean requestPepperShaker(int philosopherId) {
 		int index = philosopherId - 1;
 		
@@ -273,7 +274,7 @@ public class Monitor
 		if (availablePepperShakers > 0) {
 			availablePepperShakers--;
 			philosopherHasPepper.set(index, true);
-			System.out.println("Philosopher " + philosopherId + " obtained a pepper shaker (" + 
+			System.out.println("Philosopher " + philosopherId + " grabbed a pepper shaker (" +
 				availablePepperShakers + " remaining)");
 			return true;
 		} else {
@@ -284,7 +285,7 @@ public class Monitor
 
 	/**
 	 * TASK 6 - Return a pepper shaker after eating
-	 * @param philosopherId The ID of the philosopher returning pepper
+	 * pass the param as yhe ID of the philosopher returning pepper
 	 */
 	public synchronized void returnPepperShaker(int philosopherId) {
 		int index = philosopherId - 1;
@@ -302,7 +303,7 @@ public class Monitor
 
 	/**
 	 * TASK 6 - Wait for pepper shaker if not immediately available
-	 * @param philosopherId The ID of the philosopher waiting for pepper
+	 * param is the ID of the philosopher waiting for pepper
 	 */
 	public void waitForPepperShaker(int philosopherId) {
 		synchronized(this) {

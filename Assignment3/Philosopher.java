@@ -86,6 +86,7 @@ public class Philosopher extends BaseThread
 	 * - yield
 	 * - The print that they are done talking.
 	 */
+
 	public void talk()
 	{
 		try {

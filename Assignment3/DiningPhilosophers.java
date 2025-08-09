@@ -81,7 +81,7 @@ public class DiningPhilosophers
 				priorities[i] = prioritiesList.get(i);
 			}
 
-			// Print priorities
+			// Print priorities for validation
 			System.out.print("Assigned priorities (1 = highest): ");
 			for (int p : priorities) {
 				System.out.print(p + " ");
@@ -91,7 +91,7 @@ public class DiningPhilosophers
 			// Make the monitor aware of how many philosophers there are
 			soMonitor = new Monitor(iPhilosophers, priorities);
 
-			// Space for all the philosophers
+			// Philosopher Space
 			Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
 
 			// Let 'em sit down
