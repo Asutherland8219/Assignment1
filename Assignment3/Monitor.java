@@ -28,6 +28,10 @@ public class Monitor
 	// NEW variables from Priority Monitor (Task 3)
 	private ArrayList<Integer> priority_list; // priority list
 
+	// TASK 6 - Pepper shakers management
+	private int availablePepperShakers = 2; // Two pepper shakers available
+	private ArrayList<Boolean> philosopherHasPepper; // Track which philosophers have pepper shakers
+
 
 
 	/**
@@ -43,11 +47,15 @@ public class Monitor
 		// Task 3 priority list
 		this.priority_list = new ArrayList<>();
 
+		// TASK 6 - Initialize pepper shaker tracking
+		this.philosopherHasPepper = new ArrayList<>();
+
 		for (int i = 0; i < piNumberOfPhilosophers; i++)
 		{
 			aStates.add(State.THINKING);
 			self.add(new Object());
 			priority_list.add(n[i]);
+			philosopherHasPepper.add(false); // Initially no philosopher has pepper
 		}
 	}
 	/*
@@ -192,6 +200,7 @@ public class Monitor
 		aStates.add(State.THINKING);
 		self.add(new Object());
 		priority_list.add(priority);
+		philosopherHasPepper.add(false); // TASK 6 - Initialize pepper tracking
 		
 		System.out.println("Philosopher " + newId + " joined the table with priority " + priority);
 		return newId;
@@ -209,6 +218,11 @@ public class Monitor
 		if (aStates.get(index) == State.EATING) {
 			System.out.println("Cannot remove Philosopher " + philosopherId + " - currently eating");
 			return false;
+		}
+		
+		// TASK 6 - Return pepper shaker if philosopher has one
+		if (philosopherHasPepper.get(index)) {
+			returnPepperShaker(philosopherId);
 		}
 		
 		// Mark philosopher as left
@@ -234,6 +248,73 @@ public class Monitor
 	public synchronized boolean isPhilosopherActive(int philosopherId) {
 		int index = philosopherId - 1;
 		return index >= 0 && index < aStates.size() && aStates.get(index) != State.LEFT;
+	}
+
+	/**
+	 * TASK 6 - Request a pepper shaker for eating
+	 * @param philosopherId The ID of the philosopher requesting pepper
+	 * @return true if pepper shaker was obtained, false otherwise
+	 */
+	public synchronized boolean requestPepperShaker(int philosopherId) {
+		int index = philosopherId - 1;
+		
+		// Only eating philosophers can use pepper shakers
+		if (aStates.get(index) != State.EATING) {
+			System.out.println("Philosopher " + philosopherId + " cannot use pepper - not eating");
+			return false;
+		}
+		
+		// Check if philosopher already has a pepper shaker
+		if (philosopherHasPepper.get(index)) {
+			return true; // Already has pepper
+		}
+		
+		// Check if pepper shakers are available
+		if (availablePepperShakers > 0) {
+			availablePepperShakers--;
+			philosopherHasPepper.set(index, true);
+			System.out.println("Philosopher " + philosopherId + " obtained a pepper shaker (" + 
+				availablePepperShakers + " remaining)");
+			return true;
+		} else {
+			System.out.println("Philosopher " + philosopherId + " waiting for pepper shaker");
+			return false;
+		}
+	}
+
+	/**
+	 * TASK 6 - Return a pepper shaker after eating
+	 * @param philosopherId The ID of the philosopher returning pepper
+	 */
+	public synchronized void returnPepperShaker(int philosopherId) {
+		int index = philosopherId - 1;
+		
+		if (philosopherHasPepper.get(index)) {
+			availablePepperShakers++;
+			philosopherHasPepper.set(index, false);
+			System.out.println("Philosopher " + philosopherId + " returned pepper shaker (" + 
+				availablePepperShakers + " available)");
+			
+			// Notify waiting philosophers that pepper is available
+			notifyAll();
+		}
+	}
+
+	/**
+	 * TASK 6 - Wait for pepper shaker if not immediately available
+	 * @param philosopherId The ID of the philosopher waiting for pepper
+	 */
+	public void waitForPepperShaker(int philosopherId) {
+		synchronized(this) {
+			while (!requestPepperShaker(philosopherId)) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					break;
+				}
+			}
+		}
 	}
 }
 

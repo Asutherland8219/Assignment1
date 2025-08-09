@@ -36,8 +36,17 @@ public class Philosopher extends BaseThread
 		{
 			System.out.println("Philosopher " + id + " is eating");
 			Thread.yield();
+			
+			// TASK 6 - Request pepper shaker while eating
+			DiningPhilosophers.soMonitor.waitForPepperShaker(id);
+			System.out.println("Philosopher " + id + " is using pepper while eating");
+			
 			sleep((long)(Math.random() * TIME_TO_WASTE));
 			Thread.yield();
+			
+			// TASK 6 - Return pepper shaker after eating
+			DiningPhilosophers.soMonitor.returnPepperShaker(id);
+			
 			System.out.println("Philosopher " + id + " is DONE eating");
 		}
 		catch(InterruptedException e)
