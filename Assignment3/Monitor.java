@@ -165,26 +165,14 @@ public class Monitor
 	private boolean canEatWithPriority(int i) {
 		int myPriority = priority_list.get(i);
 		
-		// Only check priority if there are other hungry philosophers
-		boolean hasOtherHungry = false;
-		for (int j = 0; j < numPhilosophers; j++) {
-			if (j != i && aStates.get(j) == State.HUNGRY) {
-				hasOtherHungry = true;
-				break;
-			}
-		}
-		
-		// If no other hungry philosophers, allow eating
-		if (!hasOtherHungry) {
-			return true;
-		}
-		
-		// Check if any higher priority philosopher is hungry
+		// Check if ANY higher priority philosopher is hungry 
+		// If so, this philosopher must wait regardless of chopstick availability
 		for (int j = 0; j < numPhilosophers; j++) {
 			if (j != i && aStates.get(j) == State.HUNGRY && priority_list.get(j) < myPriority) {
 				return false;
 			}
 		}
+		
 		return true;
 	}
 	/**
